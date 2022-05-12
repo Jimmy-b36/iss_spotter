@@ -12,6 +12,7 @@ const fetchMyIp = (callback) => {
     return ip;
   });
 };
+
 const fetchLocation = (ip, callback) => {
   request(
     `https://api.ipbase.com/v2/info?apikey=rZRoWBTYuRQlrPsdB5gKNvT3TSAiXaLUthy775jG&ip=${ip}`,
@@ -24,8 +25,8 @@ const fetchLocation = (ip, callback) => {
       const location = {};
       location.latitude = JSON.parse(body).data.location.latitude;
       location.longitude = JSON.parse(body).data.location.longitude;
-
       callback(null, location);
+      return location;
     }
   );
 };
@@ -41,8 +42,22 @@ const issFlyover = (location, callback) => {
       }
       flyOver = JSON.parse(flyOver).response;
       callback(null, flyOver);
+      return flyOver;
     }
   );
 };
 
-module.exports = { fetchMyIp, fetchLocation, issFlyover };
+const nextIssFlyTime = (callback) => {
+  fetchMyIp((error, ipResult) => {
+    if (error) return callback(error, null);
+    fetchLocation(ipResult, (err, locationResult) => {
+      if (err) return callback(err, null);
+      issFlyover(locationResult, (err, flyOver) => {
+        if (err) return callback(err, null);
+        callback(err, flyOver);
+      });
+    });
+  });
+};
+
+module.exports = { fetchMyIp, fetchLocation, issFlyover, nextIssFlyTime };
