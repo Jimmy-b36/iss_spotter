@@ -8,7 +8,7 @@ const fetchMyIp = (callback) => {
       return callback(Error(msg), null);
     }
     ip = JSON.parse(body).ip;
-    // callback(null, ip);
+    callback(null, ip);
     return ip;
   });
 };
@@ -30,4 +30,19 @@ const fetchLocation = (ip, callback) => {
   );
 };
 
-module.exports = { fetchMyIp, fetchLocation };
+const issFlyover = (location, callback) => {
+  request(
+    `https://iss-pass.herokuapp.com/json/?lat=${location.latitude}&lon=${location.longitude}`,
+    (err, response, flyOver) => {
+      if (err) return callback(err, null);
+      if (response.statusCode !== 200) {
+        const msg = `Status code ${response.statusCode} when fetching flyovers, Response ${flyOver}`;
+        return callback(Error(msg), null);
+      }
+      flyOver = JSON.parse(flyOver).response;
+      callback(null, flyOver);
+    }
+  );
+};
+
+module.exports = { fetchMyIp, fetchLocation, issFlyover };
