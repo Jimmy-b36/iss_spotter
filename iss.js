@@ -1,5 +1,5 @@
 const request = require("request");
-let ip;
+
 const fetchMyIp = (callback) => {
   request(`https://api64.ipify.org?format=json`, (err, response, body) => {
     if (err) return callback(err, null);
@@ -60,4 +60,4 @@ const nextIssFlyTime = (callback) => {
   });
 };
 
-module.exports = { fetchMyIp, fetchLocation, issFlyover, nextIssFlyTime };
+module.exports = { nextIssFlyTime };
