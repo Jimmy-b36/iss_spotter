@@ -7,7 +7,7 @@ const fetchMyIp = () => {
 const fetchLocation = (body) => {
   const ip = JSON.parse(body).ip;
   return request(
-    `https://api.ipase.com/v2/info?apikey=rZRoWBTYuRQlrPsdB5gKNvT3TSAiXaLUthy775jG&ip=${ip}`
+    `https://api.ipbase.com/v2/info?apikey=rZRoWBTYuRQlrPsdB5gKNvT3TSAiXaLUthy775jG&ip=${ip}`
   );
 };
 
