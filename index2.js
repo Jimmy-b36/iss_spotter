@@ -1,4 +1,4 @@
-const { nextIssFlyTime } = require("./issPromises");
+const { nextIssFlyTime } = require('./issPromises');
 
 nextIssFlyTime()
   .then((flyTimes) => {
